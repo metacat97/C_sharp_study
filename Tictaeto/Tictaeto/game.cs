@@ -8,7 +8,7 @@ namespace Tictaeto
 {
     public class game
     {
-       
 
+        string[,] j = new string[9, 4];
     }
 }
