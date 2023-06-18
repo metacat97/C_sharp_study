@@ -23,9 +23,11 @@ namespace rpgtest
             int userDamage = 10;
             int coin = 100;
 
-
+            //카드 클래스 선언
             Card card = new Card();
-
+            
+            //상점 클래스 선언
+            market shop = new market();
 
             int user_y = 10;
             int user_x = 10;
@@ -130,7 +132,8 @@ namespace rpgtest
                         else if (Map[(user_y-1), user_x] == "☎")
                         {
                             Console.Clear();
-                            Console.WriteLine("상점 잘 발견했음");
+                            Console.WriteLine("상점을 방문했습니다.");
+                            shop.Shopping(ref coin);
 
                             user_y -= 1;
                             Map[user_y, user_x] ="&";
@@ -205,7 +208,9 @@ namespace rpgtest
                         else if (Map[(user_y+1), user_x] == "☎")
                         {
                             Console.Clear();
-                            Console.WriteLine("상점 잘 발견했음");
+                            Console.WriteLine("상점을 방문했습니다.");
+                            shop.Shopping(ref coin);
+
                         }
                         else
                         {
@@ -271,7 +276,8 @@ namespace rpgtest
                         else if (Map[user_y, (user_x-1)] == "☎")
                         {
                             Console.Clear();
-                            Console.WriteLine("상점 잘 발견했음");
+                            Console.WriteLine("상점을 방문했습니다.");
+                            shop.Shopping(ref coin);
                         }
                         else
                         {
@@ -337,7 +343,8 @@ namespace rpgtest
                         else if (Map[user_y, (user_x+1)] == "☎")
                         {
                             Console.Clear();
-                            Console.WriteLine("상점 잘 발견했음");
+                            Console.WriteLine("상점을 방문했습니다.");
+                            shop.Shopping(ref coin);
                         }
                         else
                         {

@@ -11,12 +11,13 @@ namespace rpgtest
         static void Main(string[] args)
         {
 
+           
             DrawMap draw = new DrawMap();
-
+            //market shop = new market();
 
             draw.DRAWMap();
 
-
+            //shop.Shopping(ref coin);
 
 
         }

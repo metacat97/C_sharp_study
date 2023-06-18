@@ -17,6 +17,7 @@ namespace RPG_0._01
         {
             Random rand = new Random();
             string[,] Map = new string[20, 20];
+            List<Shopitem> inventory = new List<Shopitem>();
 
             //배틀 관련 선언
             Battle fight = new Battle();
@@ -26,11 +27,19 @@ namespace RPG_0._01
 
             //카드게임 선언
             Card card = new Card();
-            int coin = 100;
+            int coin = 1000;
 
+            //상점 클래스 선언
+            market shop = new market();
+
+            Heal heal = new Heal();
+
+            //사용자 시작 좌표
             int user_y = 10;
             int user_x = 10;
 
+            //Console.BackgroundColor = ConsoleColor.Magenta;
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
 
             for (int i = 0; i < 20; i++)
             {
@@ -49,7 +58,7 @@ namespace RPG_0._01
                     
                     if (i == user_y && j == user_x)
                     {
-                        Map[i, j] = "＆";
+                        Map[i, j] = "♥";
                     }
 
 
@@ -59,6 +68,7 @@ namespace RPG_0._01
             }
 
 
+            Console.WriteLine("현재 사용자의 체력 = {0}, 소지금 {1}", userHp, coin);
             for (int i = 0; i < 20; i++)
             {
                 for (int j = 0; j < 20; j++)
@@ -76,6 +86,8 @@ namespace RPG_0._01
 
                 Console.Clear();
 
+                Console.WriteLine("현재 사용자의 체력 = {0}, 소지금 {1}", userHp, coin);
+
                 if (UserInput.Key == ConsoleKey.W)
                 {
                     if (user_y > 1)
@@ -84,7 +96,7 @@ namespace RPG_0._01
                         {
                             Console.Clear();
                             orcMonster.Initilize("오크", 30, 5);
-                            Console.WriteLine("전투를 시작합니다.");
+                            Console.WriteLine("전투를 시작합니다.\n");
 
                             while (true)
                             {
@@ -97,7 +109,7 @@ namespace RPG_0._01
                                 }
                                 else if (orcMonster.hp == 0)
                                 {
-                                    Console.WriteLine("{0}의 체력이 {1}이 되어 싸움에서 승리하였습니다.",
+                                    Console.WriteLine("\n{0}의 체력이 {1}이 되어 싸움에서 승리하였습니다.",
                                         orcMonster.name, orcMonster.hp);
                                     break;
                                 }
@@ -106,7 +118,7 @@ namespace RPG_0._01
                                 fight.battle(ref userHp, ref orcMonster.damage);
                                 Console.WriteLine("현재 유저의 hp 는 ={0},  대미지 = {1}",
                                     userHp, orcMonster.damage);
-                                Thread.Sleep(1000);
+                                Thread.Sleep(1500);
 
                                 fight.battle(ref orcMonster.hp, ref userDamage);
                                 Console.WriteLine("현재 {0}의 hp 는 ={1},  대미지 = {2}",
@@ -114,7 +126,7 @@ namespace RPG_0._01
 
                             }
                             user_y -= 1;
-                            Map[user_y, user_x] ="&";
+                            Map[user_y, user_x] ="♥";
                             Map[user_y+1, user_x] ="　";
 
                         }
@@ -125,22 +137,24 @@ namespace RPG_0._01
                             card.cardGame(ref coin);
 
                             user_y -= 1;
-                            Map[user_y, user_x] ="&";
+                            Map[user_y, user_x] ="♥";
                             Map[user_y+1, user_x] ="　";
                         }
                         else if (Map[(user_y-1), user_x] == "☎")
                         {
                             Console.Clear();
-                            Console.WriteLine("상점 잘 발견했음");
+                            Console.WriteLine("상점을 방문했습니다.");
+                            heal.healling(ref userHp);
+                            shop.Shopping(ref coin ,ref inventory);
 
                             user_y -= 1;
-                            Map[user_y, user_x] ="&";
+                            Map[user_y, user_x] ="♥";
                             Map[user_y+1, user_x] ="　";
                         }
                         else
                         {
                             user_y -= 1;
-                            Map[user_y, user_x] ="&";
+                            Map[user_y, user_x] ="♥";
                             Map[user_y+1, user_x] ="　";
                         }
 
@@ -162,7 +176,7 @@ namespace RPG_0._01
                         {
                             Console.Clear();
                             orcMonster.Initilize("오크", 30, 5);
-                            Console.WriteLine("전투를 시작합니다.");
+                            Console.WriteLine("전투를 시작합니다.\n");
 
                             while (true)
                             {
@@ -175,7 +189,7 @@ namespace RPG_0._01
                                 }
                                 else if (orcMonster.hp == 0)
                                 {
-                                    Console.WriteLine("{0}의 체력이 {1}이 되어 싸움에서 승리하였습니다.",
+                                    Console.WriteLine("\n{0}의 체력이 {1}이 되어 싸움에서 승리하였습니다.",
                                         orcMonster.name, orcMonster.hp);
                                     break;
                                 }
@@ -193,7 +207,7 @@ namespace RPG_0._01
                             }
 
                             user_y += 1;
-                            Map[user_y, user_x] ="&";
+                            Map[user_y, user_x] ="♥";
                             Map[user_y-1, user_x] ="　";
 
                         }
@@ -206,12 +220,14 @@ namespace RPG_0._01
                         else if (Map[(user_y+1), user_x] == "☎")
                         {
                             Console.Clear();
-                            Console.WriteLine("상점 잘 발견했음");
+                            Console.WriteLine("상점을 방문했습니다.");
+                            heal.healling(ref userHp);
+                            shop.Shopping(ref coin, ref inventory);
                         }
                         else
                         {
                             user_y += 1;
-                            Map[user_y, user_x] ="&";
+                            Map[user_y, user_x] ="♥";
                             Map[user_y-1, user_x] ="　";
                         }
 
@@ -231,7 +247,7 @@ namespace RPG_0._01
                         {
                             Console.Clear();
                             orcMonster.Initilize("오크", 30, 5);
-                            Console.WriteLine("전투를 시작합니다.");
+                            Console.WriteLine("전투를 시작합니다.\n");
 
                             while (true)
                             {
@@ -244,7 +260,7 @@ namespace RPG_0._01
                                 }
                                 else if (orcMonster.hp == 0)
                                 {
-                                    Console.WriteLine("{0}의 체력이 {1}이 되어 싸움에서 승리하였습니다.",
+                                    Console.WriteLine("\n{0}의 체력이 {1}이 되어 싸움에서 승리하였습니다.",
                                         orcMonster.name, orcMonster.hp);
                                     break;
                                 }
@@ -260,7 +276,7 @@ namespace RPG_0._01
                                     orcMonster.name, orcMonster.hp, userDamage);
                             }
                             user_x -= 1;
-                            Map[user_y, user_x] ="&";
+                            Map[user_y, user_x] ="♥";
                             Map[user_y, user_x+1] ="　";
                         }
                         else if (Map[user_y, (user_x-1)] == "♣")
@@ -272,12 +288,14 @@ namespace RPG_0._01
                         else if (Map[user_y, (user_x-1)] == "☎")
                         {
                             Console.Clear();
-                            Console.WriteLine("상점 잘 발견했음");
+                            Console.WriteLine("상점을 방문했습니다.");
+                            heal.healling(ref userHp);
+                            shop.Shopping(ref coin, ref inventory);
                         }
                         else
                         {
                             user_x -= 1;
-                            Map[user_y, user_x] ="&";
+                            Map[user_y, user_x] ="♥";
                             Map[user_y, user_x+1] ="　";
                         }
 
@@ -297,7 +315,7 @@ namespace RPG_0._01
                         {
                             Console.Clear();
                             orcMonster.Initilize("오크", 30, 5);
-                            Console.WriteLine("전투를 시작합니다.");
+                            Console.WriteLine("전투를 시작합니다.\n");
 
                             while (true)
                             {
@@ -310,7 +328,7 @@ namespace RPG_0._01
                                 }
                                 else if (orcMonster.hp == 0)
                                 {
-                                    Console.WriteLine("{0}의 체력이 {1}이 되어 싸움에서 승리하였습니다.",
+                                    Console.WriteLine("\n{0}의 체력이 {1}이 되어 싸움에서 승리하였습니다.",
                                         orcMonster.name, orcMonster.hp);
                                     break;
                                 }
@@ -338,12 +356,14 @@ namespace RPG_0._01
                         else if (Map[user_y, (user_x+1)] == "☎")
                         {
                             Console.Clear();
-                            Console.WriteLine("상점 잘 발견했음");
+                            Console.WriteLine("상점을 방문했습니다."); 
+                            heal.healling(ref userHp);
+                            shop.Shopping(ref coin, ref inventory);
                         }
                         else
                         {
                             user_x += 1;
-                            Map[user_y, user_x] ="&";
+                            Map[user_y, user_x] ="♥";
                             Map[user_y, user_x-1] ="　";
                         }
 
@@ -382,6 +402,10 @@ namespace RPG_0._01
                     {
                         Map[card_y, card_x] = "♣";
                     }
+                }
+                else if (UserInput.Key == ConsoleKey.I)
+                {
+                    shop.Shopping(ref coin, ref inventory);
                 }
 
 

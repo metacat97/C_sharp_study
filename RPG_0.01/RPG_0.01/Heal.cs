@@ -6,9 +6,13 @@ using System.Threading.Tasks;
 
 namespace RPG_0._01
 {
-    public class Shop
+    public class Heal
     {
-            
+
+        public void healling(ref int Hp)
+        {
+            Hp = Hp + 10;
+        }
 
     }
 }
