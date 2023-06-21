@@ -74,7 +74,11 @@ namespace makePortal
                             userX = saveX;
                             Map[saveY, saveX] ="　";
                             count += 1;
-                            goto print;
+                            if (count != 0)
+                            {
+                                count = 0;
+                                break;
+                            }
                         }
                         else
                         {
@@ -99,7 +103,11 @@ namespace makePortal
                             userX = saveX;
                             Map[saveY, saveX] ="　";
                             count += 1;
-                            goto print;
+                            if (count != 0)
+                            {
+                                count = 0;
+                                break;
+                            }
                         }
                         else
                         {
@@ -124,7 +132,11 @@ namespace makePortal
                             userX = saveX;
                             Map[saveY, saveX] ="　";
                             count += 1;
-                            goto print;
+                            if (count != 0)
+                            {
+                                count = 0;
+                                break;
+                            }
                         }
                         else
                         {
@@ -149,7 +161,11 @@ namespace makePortal
                             userX = saveX;
                             Map[saveY, saveX] ="　";
                             count += 1;
-                            goto print;
+                            if (count != 0)
+                            {
+                                count = 0;
+                                break;
+                            }
                         }
                         else
                         {
@@ -164,7 +180,7 @@ namespace makePortal
                         Console.WriteLine("\n 벽에 막혀 더 이상 갈 수 없어요");
                     }
                 }
-                print:
+                 
                 Console.SetCursorPosition(0, 0);
                 for (int i = 0; i < 20; i++)
                 {
@@ -174,10 +190,7 @@ namespace makePortal
                     }
                     Console.WriteLine();
                 }
-                if (count >1 || count != 0)
-                {
-                    break;
-                }
+                 
 
 
 

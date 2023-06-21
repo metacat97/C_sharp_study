@@ -23,6 +23,7 @@ namespace makePortal
                 draw2.makeMap2(ref userY2, ref userX2);
                 Console.WriteLine();
                 draw1.makeMap1(ref userY1, ref userX1);
+                
             }
         }
     }

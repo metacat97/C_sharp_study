@@ -60,13 +60,8 @@ namespace RPG_0._01
                     {
                         Map[i, j] = "♥";
                     }
-
-
-
-
                 }
             }
-
 
             Console.WriteLine("현재 사용자의 체력 = {0}, 소지금 {1}", userHp, coin);
             for (int i = 0; i < 20; i++)

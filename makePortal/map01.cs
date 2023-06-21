@@ -10,12 +10,11 @@ namespace makePortal
     {
         public void makeMap1(ref int userY, ref int userX)
         {
-             
+            
             string[,] Map = new string[15, 15];
             int saveY = 12;
             int saveX = 6;
             int count = 0;
-
             for (int i = 0; i < 15; i++)
             {
                 for (int j = 0; j < 15; j++)
@@ -46,7 +45,6 @@ namespace makePortal
                     {
                         Map[i, j] = "♥";
                     }
-
                 }
             }
             for (int i = 0; i < 15; i++)
@@ -57,22 +55,27 @@ namespace makePortal
                 }
                 Console.WriteLine();
             }
-
+            
             while (true)
             {
                 ConsoleKeyInfo UserInput = Console.ReadKey();
-
+                userY = saveY;
+                userX = saveX;
                 if (UserInput.Key == ConsoleKey.W)
                 {
                     if(saveY > 1)
                     {
                         if (Map[saveY-1, saveX] == "▣")
                         {
-                            userY = saveY;
-                            userX = saveX;
+                            //userY = saveY;
+                            //userX = saveX;
                             Map[saveY, saveX] ="　";
                             count += 1;
-                            goto print;
+                            if (count != 0) 
+                            {
+                                count = 0;
+                                break;
+                            }
                         }
                         else
                         {
@@ -93,11 +96,14 @@ namespace makePortal
                     {
                         if (Map[saveY+1, saveX] == "▣")
                         {
-                            userY = saveY;
-                            userX = saveX;
+                             
                             Map[saveY, saveX] ="　";
                             count += 1;
-                            goto print;
+                            if (count != 0)
+                            {
+                                count = 0;
+                                break;
+                            }
                         }
                         else
                         {
@@ -118,11 +124,14 @@ namespace makePortal
                     {
                         if (Map[saveY, saveX -1] == "▣")
                         {
-                            userY = saveY;
-                            userX = saveX;
+                            
                             Map[saveY, saveX] ="　";
                             count += 1;
-                            goto print;
+                            if (count != 0)
+                            {
+                                count = 0;
+                                break;
+                            }
                         }
                         else
                         {
@@ -143,11 +152,14 @@ namespace makePortal
                     {
                         if (Map[saveY, saveX+1] == "▣")
                         {
-                            userY = saveY;
-                            userX = saveX;
+                           
                             Map[saveY, saveX] ="　";
                             count += 1;
-                            goto print;
+                            if (count != 0)
+                            {
+                                count = 0;
+                                break;
+                            }
                         }
                         else
                         {
@@ -162,7 +174,7 @@ namespace makePortal
                         Console.WriteLine("\n 벽에 막혀 더 이상 갈 수 없어요");
                     }
                 }
-                print:
+               
                 Console.SetCursorPosition(0,21);
                 for (int i = 0; i < 15; i++)
                 {
@@ -172,11 +184,9 @@ namespace makePortal
                     }
                     Console.WriteLine();
                 }
-                if (count >1 || count != 0)
-                {
-                    break;
-                }
+               
 
+                
 
             }
 
