@@ -25,6 +25,9 @@ namespace runningfriend
             int enemyMoveCount = 0;
             int[] testDistance = new int[999];
 
+            int[] wallY = new int[999];
+            int[] wallX = new int[999];
+
             //int gameOverCount = 0;
             //유저 맵 초기화 입력값 받기
             Console.WriteLine("세로 값을 입력해주세요.");
@@ -72,6 +75,13 @@ namespace runningfriend
                         Map[i, j] = "♥";
                     }
                 }
+            }
+            //벽 생성
+            for (int i = 0; i < 50; i++)
+            {
+                wallY[i]=rand.Next(2, mapAreaY-2);
+                wallX[i]=rand.Next(2, mapAreaX-2);
+                Map[wallY[i], wallX[i]] = "■";
             }
 
             //콘솔 위 한 번 출력
@@ -255,9 +265,11 @@ namespace runningfriend
                 else if (UserInput.Key == ConsoleKey.C)
                 {
 
-                    if (enemyY!=userY && enemyX !=userX)
+                    for (int i = 0; i < 50; i++)
                     {
-                        Map[enemyY, enemyX] = "♣";
+                        wallY[i]=rand.Next(2, mapAreaY-2);
+                        wallX[i]=rand.Next(2, mapAreaX-2);
+                        Map[wallY[i], wallX[i]] = "■";
                     }
                 }
 
@@ -273,6 +285,9 @@ namespace runningfriend
                 //Console.WriteLine("X값  = {0}", testX);
                 //the_distance_between_user_and_the_enemy = distanceCal.distanceCalculation(distanceCal.distanceXY(userY, enemyY), distanceCal.distanceXY(userX, enemyX));
                 //Console.WriteLine("적과 user의 거리 == {0} ", the_distance_between_user_and_the_enemy);
+
+
+
 
                 enemyMoveCount +=1;
                 if (enemyMoveCount >= 10)
@@ -293,70 +308,152 @@ namespace runningfriend
                         count +=1;
                         break;
                     }
-                    
+
                 }
 
 
 
                 for (int i = 0; i <count; i++)
                 {
-                    if (userY < enemyY_[i])
+                    int choice = rand.Next(0, 1);
+                    if (choice == 0)
                     {
-                        if (Map[(enemyY_[i]-1), enemyX_[i]] == "■")
+                        if (userY < enemyY_[i])
                         {
-                            //userY -= 1;
-                            //Map[userY, userX] ="♥";
-                            //Map[userY+1, userX] ="　";
+                            if (Map[(enemyY_[i]-1), enemyX_[i]] == "■" || Map[(enemyY_[i]-1), enemyX_[i]] == "♧")
+                            {
+                                //userY -= 1;
+                                //Map[userY, userX] ="♥";
+                                //Map[userY+1, userX] ="　";
+                            }
+                            else if(Map[(enemyY_[i]-1), enemyX_[i]] == "♥")
+                            {
+                                enemyY_[i] -= 1;
+                                Map[enemyY_[i], enemyX_[i]] ="♧";
+                                Map[enemyY_[i]+1, enemyX_[i]] ="　";
+                                Console.WriteLine("GameOver");
+                                break;
+                            }
+                            else
+                            {
+                                enemyY_[i] -= 1;
+                                Map[enemyY_[i], enemyX_[i]] ="♧";
+                                Map[enemyY_[i]+1, enemyX_[i]] ="　";
+                            }
                         }
-                        else
+                        else if (userY > enemyY_[i])
                         {
-                            enemyY_[i] -= 1;
-                            Map[enemyY_[i], enemyX_[i]] ="♧";
-                            Map[enemyY_[i]+1, enemyX_[i]] ="　";
+                            if (Map[(enemyY_[i]+1), enemyX_[i]] == "■")
+                            {/*pass*/ }
+                            else
+                            {
+                                enemyY_[i] +=1;
+                                Map[enemyY_[i], enemyX_[i]] ="♧";
+                                Map[enemyY_[i]-1, enemyX_[i]] ="　";
+                            }
                         }
-                    }
-                    else if (userY > enemyY_[i])
-                    {
-                        if (Map[(enemyY_[i]+1), enemyX_[i]] == "■")
-                        {/*pass*/ }
-                        else
+                        //else if (userY - enemyY_[i] == 0)
+                        //{
+                        //    enemyY_[i] = 0;
+                        //}
+
+                        else if (userX < enemyX_[i])
                         {
-                            enemyY_[i] +=1;
-                            Map[enemyY_[i], enemyX_[i]] ="♧";
-                            Map[enemyY_[i]-1, enemyX_[i]] ="　";
+                            if (Map[enemyY_[i], enemyX_[i]-1] == "■" || Map[enemyY_[i], enemyX_[i]-1] == "♧")
+                            {
+                                /*pass*/
+                            }
+                            else if (Map[enemyY_[i], enemyX_[i]-1] == "♥")
+                            {
+                                enemyX_[i] -= 1;
+                                Map[enemyY_[i], enemyX_[i]] ="♧";
+                                Map[enemyY_[i], enemyX_[i]+1] ="　";
+                                Console.WriteLine("GameOver");
+
+                            }
+                            else
+                            {
+                                enemyX_[i] -= 1;
+                                Map[enemyY_[i], enemyX_[i]] ="♧";
+                                Map[enemyY_[i], enemyX_[i]+1] ="　";
+                            }
                         }
-                    }
-                    else if (userY - enemyY_[i] == 0)
-                    {
-                        enemyY_[i] = 0;
-                    }
-                    
-                    if (userX < enemyX_[i])
-                    {
-                        if (Map[(enemyY), enemyX-1] == "■")
-                        {/*pass*/ }
-                        else
+                        else if (userX > enemyX_[i])
                         {
-                            enemyX_[i] -= 1;
-                            Map[enemyY_[i], enemyX_[i]] ="♧";
-                            Map[enemyY_[i], enemyX_[i]+1] ="　";
+                            if (Map[(enemyY_[i]), enemyX_[i]+1] == "■"||Map[(enemyY_[i]), enemyX_[i]+1] == "♧")
+                            {/*pass*/ }
+                            else
+                            {
+                                enemyX_[i] +=1;
+                                Map[enemyY_[i], enemyX_[i]] ="♧";
+                                Map[enemyY_[i], enemyX_[i]-1] ="　";
+                            }
                         }
                     }
-                    else if (userX > enemyX)
+                    else if (choice ==1)
                     {
-                        if (Map[(enemyY_[i]), enemyX_[i]+1] == "■")
-                        {/*pass*/ }
-                        else
+
+                        //else if (userY - enemyY_[i] == 0)
+                        //{
+                        //    enemyY_[i] = 0;
+                        //}
+
+                        if (userX < enemyX_[i])
                         {
-                            enemyX_[i] +=1;
-                            Map[enemyY_[i], enemyX_[i]] ="♧";
-                            Map[enemyY_[i], enemyX_[i]-1] ="　";
+                            if (Map[enemyY_[i], enemyX_[i]-1] == "■")
+                            {/*pass*/ }
+                            else
+                            {
+                                enemyX_[i] -= 1;
+                                Map[enemyY_[i], enemyX_[i]] ="♧";
+                                Map[enemyY_[i], enemyX_[i]+1] ="　";
+                            }
+                        }
+                        else if (userX > enemyX_[i])
+                        {
+                            if (Map[(enemyY_[i]), enemyX_[i]+1] == "■")
+                            {/*pass*/ }
+                            else
+                            {
+                                enemyX_[i] +=1;
+                                Map[enemyY_[i], enemyX_[i]] ="♧";
+                                Map[enemyY_[i], enemyX_[i]-1] ="　";
+                            }
+                        }
+                        else if (userY < enemyY_[i])
+                        {
+                            if (Map[(enemyY_[i]-1), enemyX_[i]] == "■")
+                            {
+                                //userY -= 1;
+                                //Map[userY, userX] ="♥";
+                                //Map[userY+1, userX] ="　";
+                            }
+                            else
+                            {
+                                enemyY_[i] -= 1;
+                                Map[enemyY_[i], enemyX_[i]] ="♧";
+                                Map[enemyY_[i]+1, enemyX_[i]] ="　";
+                            }
+                        }
+                        else if (userY > enemyY_[i])
+                        {
+                            if (Map[(enemyY_[i]+1), enemyX_[i]] == "■")
+                            {/*pass*/ }
+                            else
+                            {
+                                enemyY_[i] +=1;
+                                Map[enemyY_[i], enemyX_[i]] ="♧";
+                                Map[enemyY_[i]-1, enemyX_[i]] ="　";
+                            }
                         }
                     }
-                    else if (userX - enemyX_[i] == 0)
-                    {
-                        enemyX_[i] = 0;
-                    }
+
+                    //else if (userX - enemyX_[i] == 0)
+                    //{
+                    //    enemyX_[i] = 0;
+                    //}
+
+                    Console.WriteLine(" y위치는 = {0} ,  x위치는 = {1}", enemyY_[i], enemyX_[i]);
                 }
                 //변화한 값들 다시 출력해주는 출력문
                 Console.SetCursorPosition(0, 4);
