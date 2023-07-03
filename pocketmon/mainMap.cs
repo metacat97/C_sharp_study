@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace pocketmon
 {
-    internal class mainMap
+    public class mainMap
     {
         public void drawMap()
         {
@@ -16,7 +16,7 @@ namespace pocketmon
             //메인 맵 초기 크기 선언
             int yFirst_Map_Area = 40;
             int xFirst_Map_Area = 80;
-            //유조 위치 선언
+            //유저 위치 선언
             int user_y_Position = 20;
             int user_x_Position = 40;
             //퀘스트NPC 생성 위치 
